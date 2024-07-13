@@ -9,7 +9,7 @@ class Gossip # rubocop:disable Style/Documentation
     @author = author
   end
 
-  # Save the gossip as a CSV entry
+  # Sauvegarder le gossip en CSV
   def save_as_csv
     file_path = File.expand_path('../db/gossip.csv', __dir__)
     begin
@@ -22,7 +22,7 @@ class Gossip # rubocop:disable Style/Documentation
     end
   end
 
-  # Save the gossip as a JSON entry
+  # Sauvegarder le gossip en JSON
   def save_as_json
     file_path = File.expand_path('../db/gossip.json', __dir__)
     begin
@@ -35,7 +35,7 @@ class Gossip # rubocop:disable Style/Documentation
     end
   end
 
-  # Index gossips from CSV
+  # Indexer les gossips depuis le CSV
   def self.index_gossip_csv
     file_path = File.expand_path('../db/gossip.csv', __dir__)
     gossips = []
@@ -47,7 +47,7 @@ class Gossip # rubocop:disable Style/Documentation
     gossips
   end
 
-  # Index gossips from JSON
+  # Indexer les gossips depuis le JSON
   def self.index_gossip_json
     file_path = File.expand_path('../db/gossip.json', __dir__)
     gossips = []
@@ -60,9 +60,29 @@ class Gossip # rubocop:disable Style/Documentation
     gossips
   end
 
+  # Supprimer un gossip par index
+  def self.destroy(index)
+    file_path = File.expand_path('../db/gossip.csv', __dir__)
+    gossips = []
+    if File.exist?(file_path)
+      CSV.foreach(file_path) do |row|
+        gossips << row
+      end
+      gossips.delete_at(index)
+      CSV.open(file_path, 'w') do |csv|
+        gossips.each do |gossip|
+          csv << gossip
+        end
+      end
+      puts 'Le gossip a été supprimé avec succès.'
+    else
+      puts 'Aucun gossip trouvé à supprimer.'
+    end
+  end
+
   private
 
-  # Load existing gossips from JSON file
+  # Charger les gossips existants depuis un fichier JSON
   def self.load_from_json(file_path)
     if File.exist?(file_path)
       file_content = File.read(file_path)
@@ -72,7 +92,7 @@ class Gossip # rubocop:disable Style/Documentation
     end
   end
 
-  # Save gossips to JSON file
+  # Sauvegarder les gossips dans un fichier JSON
   def self.save_to_json(gossips, file_path)
     File.open(file_path, 'w') do |file|
       json_data = JSON.pretty_generate(gossips)

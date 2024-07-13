@@ -1,6 +1,7 @@
 require_relative 'gossip'
 require_relative 'view'
-class Controller # rubocop:disable Style/Documentation
+
+class Controller
   def initialize
     @view = View.new
   end
@@ -14,5 +15,10 @@ class Controller # rubocop:disable Style/Documentation
   def index_gossips
     gossips = Gossip.index_gossip_csv
     @view.index_gossips(gossips)
+  end
+
+  def destroy_gossip
+    index = @view.destroy_gossip
+    Gossip.destroy(index)
   end
 end
