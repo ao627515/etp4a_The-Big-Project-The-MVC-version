@@ -10,6 +10,7 @@ class Router # rubocop:disable Style/Documentation
     loop do
       puts "Tu veux faire quoi jeune mouss' ?"
       puts '1. Je veux créer un gossip'
+      puts '2. Je veux la liste des gossip'
       puts "4. Je veux quitter l'app"
       params = gets.chomp.to_i
 
@@ -17,6 +18,9 @@ class Router # rubocop:disable Style/Documentation
       when 1
         puts 'Tu as choisi de créer un gossip'
         @controller.create_gossip
+      when 2
+        puts 'Tu as choisi de voir la liste des gossip'
+        @controller.index_gossips
       when 4
         puts 'À bientôt !'
         break

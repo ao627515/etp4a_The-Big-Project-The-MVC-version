@@ -11,6 +11,12 @@ class View
     { 'author' => author, 'content' => content }
   end
 
+  def index_gossips(gossips)
+    gossips.each do |gossip|
+      puts "#{gossip.author} : #{gossip.content}"
+    end
+  end
+
   private
 
   def get_non_empty_input(field_name)
